@@ -45,7 +45,7 @@ pub fn expand_column(cx: &mut ExtCtxt, sp: Span, tts: &[tokenstream::TokenTree])
 /* __rust_unstable_column!(): expands to the current column number */
 pub fn expand_column_gated(cx: &mut ExtCtxt, sp: Span, tts: &[tokenstream::TokenTree])
                   -> Box<dyn base::MacResult+'static> {
-    if sp.allows_unstable() {
+    if sp.allows_unstable("__rust_unstable_column") {
         expand_column(cx, sp, tts)
     } else {
         cx.span_fatal(sp, "the __rust_unstable_column macro is unstable");

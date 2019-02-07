@@ -550,7 +550,7 @@ impl<'a, 'b> MacroExpander<'a, 'b> {
             call_site: attr.span,
             def_site: None,
             format: MacroAttribute(Symbol::intern(&attr.path.to_string())),
-            allow_internal_unstable: Vec::new(),
+            allow_internal_unstable: None,
             allow_internal_unsafe: false,
             local_inner_macros: false,
             edition: ext.edition(),
@@ -750,7 +750,7 @@ impl<'a, 'b> MacroExpander<'a, 'b> {
         let opt_expanded = match *ext {
             DeclMacro { ref expander, def_info, edition, .. } => {
                 if let Err(dummy_span) = validate_and_set_expn_info(self, def_info.map(|(_, s)| s),
-                                                                    Vec::new(), false, false, None,
+                                                                    None, false, false, None,
                                                                     edition) {
                     dummy_span
                 } else {
@@ -911,7 +911,7 @@ impl<'a, 'b> MacroExpander<'a, 'b> {
             call_site: span,
             def_site: None,
             format: MacroAttribute(pretty_name),
-            allow_internal_unstable: Vec::new(),
+            allow_internal_unstable: None,
             allow_internal_unsafe: false,
             local_inner_macros: false,
             edition: ext.edition(),
@@ -930,12 +930,12 @@ impl<'a, 'b> MacroExpander<'a, 'b> {
                 Some(invoc.fragment_kind.expect_from_annotatables(items))
             }
             BuiltinDerive(func) => {
-                expn_info.allow_internal_unstable = vec![
+                expn_info.allow_internal_unstable = Some(vec![
                     Symbol::intern("rustc_attrs"),
                     Symbol::intern("derive_clone_copy"),
                     Symbol::intern("derive_eq"),
                     Symbol::intern("libstd_sys_internals"), // RustcDeserialize and RustcSerialize
-                ];
+                ].into());
                 invoc.expansion_data.mark.set_expn_info(expn_info);
                 let span = span.with_ctxt(self.cx.backtrace());
                 let mut items = Vec::new();

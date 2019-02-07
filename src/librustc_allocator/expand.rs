@@ -91,9 +91,9 @@ impl<'a> Folder for ExpandAllocatorDirectives<'a> {
             call_site: item.span, // use the call site of the static
             def_site: None,
             format: MacroAttribute(Symbol::intern(name)),
-            allow_internal_unstable: vec![
+            allow_internal_unstable: Some(vec![
                 Symbol::intern("rustc_attrs"),
-            ],
+            ].into()),
             allow_internal_unsafe: false,
             local_inner_macros: false,
             edition: hygiene::default_edition(),

@@ -70,7 +70,7 @@ pub fn register_builtins(resolver: &mut dyn syntax::ext::base::Resolver,
                      NormalTT {
                         expander: Box::new($f as MacroExpanderFn),
                         def_info: None,
-                        allow_internal_unstable: Vec::new(),
+                        allow_internal_unstable: None,
                         allow_internal_unsafe: false,
                         local_inner_macros: false,
                         unstable_feature: None,
@@ -113,9 +113,9 @@ pub fn register_builtins(resolver: &mut dyn syntax::ext::base::Resolver,
              NormalTT {
                 expander: Box::new(format::expand_format_args),
                 def_info: None,
-                allow_internal_unstable: vec![
+                allow_internal_unstable: Some(vec![
                     Symbol::intern("fmt_internals"),
-                ],
+                ].into()),
                 allow_internal_unsafe: false,
                 local_inner_macros: false,
                 unstable_feature: None,
@@ -125,9 +125,9 @@ pub fn register_builtins(resolver: &mut dyn syntax::ext::base::Resolver,
              NormalTT {
                  expander: Box::new(format::expand_format_args_nl),
                  def_info: None,
-                 allow_internal_unstable: vec![
+                 allow_internal_unstable: Some(vec![
                      Symbol::intern("fmt_internals"),
-                 ],
+                 ].into()),
                  allow_internal_unsafe: false,
                  local_inner_macros: false,
                  unstable_feature: None,
